@@ -23,7 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 class XsltGenerator {
 
     void generateXmlWithUseXslt(String path) throws IOException, TransformerException, SAXException, ParserConfigurationException {
-        File stylesheet = new File("Transform.xslt");
+        File stylesheet = new File("Change.xslt");
         File datafile = new File(path);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

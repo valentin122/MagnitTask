@@ -8,6 +8,7 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Tests {
 
@@ -17,7 +18,7 @@ public class Tests {
     final static String SELECT = "SELECT field FROM TEST";
 
 
-    public static int n = 10;
+    public static int n = 100000;
 
     static String url = "jdbc:postgresql://127.0.0.1/";
     static String user = "postgres";
@@ -67,8 +68,10 @@ public class Tests {
                     statement.setInt(1, i);
                     statement.executeUpdate();
                 }
+
                 System.out.println("db inserted!");
-                connection.commit();
+
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 System.out.println("db inserted failed");
                 e.printStackTrace();
@@ -78,11 +81,10 @@ public class Tests {
         }
     }
 
-    ResultSet GetData(Connection connection) throws SQLException {
+    ResultSet GetData() throws SQLException {
         ResultSet rs = null;
 
-        try {
-            connection = DriverManager.getConnection(url, user, pwd);
+        try (Connection connection = DriverManager.getConnection(url, user, pwd);) {
 
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
                 connection.setAutoCommit(false);
@@ -91,10 +93,12 @@ public class Tests {
                     System.out.println("Select success");
                 }
 
-
+                generateXml(rs);
                 connection.commit();
             } catch (SQLException e) {
                 System.out.println("Select failed");
+                e.printStackTrace();
+            } catch (XMLStreamException e) {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
@@ -102,20 +106,15 @@ public class Tests {
             e.printStackTrace();
         }
 
-        try {
-            connection.close();
-        } catch (SQLException closeError) {
-            System.out.println("Can't close connection.");
-            closeError.printStackTrace();
-        }
+
         return rs;
     }
 
         void generateXml (ResultSet rs) throws SQLException, XMLStreamException {
             XmlGenerator xmlGenerator = new XmlGenerator();
-
+            String result = "Xml create fail!";
             try {
-                xmlGenerator.generateDocument(rs);
+                result = xmlGenerator.generateDocument(rs);
             } catch (SQLException e) {
                 System.out.println(" Generate XML error!");
                 e.printStackTrace();
@@ -136,18 +135,21 @@ public class Tests {
         }
 
         void xmlParserToArrayListAndSum ( final String path){
-            int sum = 0;
+            long result = 0;
             XmlFileParserAndSumCounter xmlFileParser = new XmlFileParserAndSumCounter();
             ArrayList<Integer> arrayForSum = xmlFileParser.parseXmlFileToArrayList(path);
 
             System.out.println("Parse file to array success.");
 
-            for (int i : arrayForSum) {
-                sum = sum + i;
-            }
 
-            System.out.println(String.format("Sum is %s", sum));
+            result =  sum(arrayForSum);
+
+
+            System.out.println(String.format("Sum is %s", result));
         }
+    public long sum(Collection<Integer> collection) {
+        return collection.stream().mapToInt(i -> i).sum();
+    }
     }
 
 

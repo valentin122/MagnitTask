@@ -12,10 +12,8 @@ public class Main {
         tests.DbCreate();
         tests.DbClean();
         tests.DbInsert();
-        ResultSet rs = tests.GetData();
-        tests.generateXml(rs);
+        tests.GetData();
         tests.xsltTransform("1.xml");
-
         //  Parse file to arraylist and get sum
         tests.xmlParserToArrayListAndSum("2.xml");
         double timeSpent = (System.currentTimeMillis() - startTime);
