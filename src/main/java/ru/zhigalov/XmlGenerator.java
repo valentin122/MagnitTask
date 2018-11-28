@@ -19,16 +19,17 @@ class XmlGenerator {
 
     String generateDocument(ResultSet resultSet) throws SQLException, IOException,
             TransformerException, XMLStreamException {
+        //Класс ResultSet представляет результирующий набор данных и обеспечивает приложению построчный доступ к результатам запросов.
 
 
         List<String> dbQueryResult = new ArrayList<>();
         String line;
-
+        final String COLUMN_FIELD = "field";
         while (resultSet.next()) {
-            dbQueryResult.add(resultSet.getString(1));
+            dbQueryResult.add(resultSet.getString(COLUMN_FIELD));
         }
 
-        final XMLOutputFactory factory = XMLOutputFactory.newFactory();
+        final XMLOutputFactory factory = XMLOutputFactory.newFactory(); //
         XMLStreamWriter writer = factory.createXMLStreamWriter(new FileOutputStream("0.xml"), "UTF-8");
         writer.writeStartDocument("UTF-8", "1.0");
         writer.writeStartElement("entries");
