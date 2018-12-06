@@ -43,8 +43,10 @@ public class MakeXml {
         long sum = 0;
         for (int i : arrayForSum) {
             sum = sum + i;
+
         }
-        System.out.println(String.format("Sum is %s", sum));
+        long sum1 = sum;
+        System.out.println(String.format("Sum is %s", sum1));
 
     }
 }

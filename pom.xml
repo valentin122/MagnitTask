@@ -17,6 +17,7 @@
     </dependencies>
     <groupId>ru.zhigalov</groupId>
     <artifactId>TanderTask</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>

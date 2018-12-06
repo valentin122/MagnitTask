@@ -7,13 +7,18 @@ public class Main {
 
 
 
-
     public static void main(String[] args) throws SQLException {
 
         long startTime = System.currentTimeMillis();
 
         Dao dao = new Dao();
         MakeXml makeXml = new MakeXml();
+
+        Settings.load();
+        dao.setUrl();
+        dao.setLogin();
+        dao.setPassword();
+        dao.setN();
 
         dao.DbCreateAndClear();
         dao.DbInsert();

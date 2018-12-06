@@ -5,17 +5,28 @@ import java.sql.*;
 
 public class Dao {
 
+    String url;
+    String user;
+    String pwd;
+    int n;
+
     final String CREATE = "CREATE TABLE TEST (field INTEGER PRIMARY KEY)";
     final String CLEAN = "TRUNCATE TEST";
     final String INSERT = "INSERT INTO TEST (field) VALUES (?)";
     final String SELECT = "SELECT field FROM TEST";
 
-    static String url = "jdbc:postgresql://127.0.0.1/";
-    static String user = "postgres";
-    static String pwd = "73173100";
-
-    public static int n = 100_000;
-
+    void setUrl(){
+        this.url = Settings.getValue("jdbc.url");
+    }
+    void setLogin(){
+        this.user = Settings.getValue("jdbc.user");
+    }
+    void setPassword(){
+        this.pwd = Settings.getValue("jdbc.pwd");
+    }
+    void setN(){
+        this.n = Integer.parseInt((Settings.getValue("n")));
+    }
 
     public void DbCreateAndClear() {
 
