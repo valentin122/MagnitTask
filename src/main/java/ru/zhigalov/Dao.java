@@ -1,14 +1,15 @@
 package ru.zhigalov;
 
-import javax.xml.stream.XMLStreamException;
+import com.sun.rowset.CachedRowSetImpl;
+import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
 
 public class Dao {
 
-    String url;
-    String user;
-    String pwd;
-    int n;
+    private String url;
+    private String user;
+    private String pwd;
+    private int n;
 
     final String CREATE = "CREATE TABLE TEST (field INTEGER PRIMARY KEY)";
     final String CLEAN = "TRUNCATE TEST";
@@ -24,7 +25,7 @@ public class Dao {
     void setPassword(){
         this.pwd = Settings.getValue("jdbc.pwd");
     }
-    void setN(){
+    void setN() {
         this.n = Integer.parseInt((Settings.getValue("n")));
     }
 
@@ -86,26 +87,30 @@ public class Dao {
     }
 
     ResultSet GetData() throws SQLException {
-        ResultSet rs = null;
+        ResultSet rs;
+        CachedRowSet crset = new CachedRowSetImpl ();
+
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
+
                 rs = statement.executeQuery();
-                if (rs != null) {
+
+                crset.populate (rs);
+
+                if (crset != null) {
                     System.out.println("Select success");
                 }
-                try {
-                    MakeXml.generateXml(rs);
-                } catch (XMLStreamException e) {
-                    e.printStackTrace();
-                }
+
             } catch (SQLException e) {
                 System.out.println("Select failed");
                 e.printStackTrace();
             }
         }
-        return rs;
+        return crset;
     }
 }
+
+
 
 
 

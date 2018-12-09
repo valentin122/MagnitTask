@@ -1,6 +1,8 @@
 package ru.zhigalov;
 
 
+import javax.sql.RowSet;
+import javax.xml.stream.XMLStreamException;
 import java.sql.SQLException;
 
 public class Main {
@@ -22,7 +24,14 @@ public class Main {
 
         dao.DbCreateAndClear();
         dao.DbInsert();
-        dao.GetData();
+
+        RowSet crset = (RowSet) dao.GetData();
+
+        try {
+            MakeXml.generateXml(crset);
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
 
         makeXml.xsltTransform("1.xml");
         makeXml.xmlParserToArrayListAndSum("2.xml");
