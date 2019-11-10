@@ -1,4 +1,4 @@
-package ru.zhigalov;
+package ru.zhigalov.xml;
 
 import java.io.*;
 import org.w3c.dom.Document;
@@ -28,9 +28,9 @@ class XsltGenerator {
         Document document2 = builder2.parse(datafile);
 
         TransformerFactory tFactory = TransformerFactory.newInstance();
-        StreamSource stylesource = new StreamSource(stylesheet);
+        StreamSource styleSource = new StreamSource(stylesheet);
 
-        Transformer transformer = tFactory.newTransformer(stylesource);
+        Transformer transformer = tFactory.newTransformer(styleSource);
 
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
         transformer.setOutputProperty(OutputKeys.STANDALONE,"yes");

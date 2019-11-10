@@ -1,7 +1,6 @@
-package ru.zhigalov;
+package ru.zhigalov.xml;
 
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
@@ -12,9 +11,8 @@ import java.util.ArrayList;
 
 public class MakeXml {
 
-    static void generateXml(ResultSet rs) throws XMLStreamException {
+    public static void generateXml(ResultSet rs) throws XMLStreamException {
         XmlGenerator xmlGenerator = new XmlGenerator();
-
         try {
             xmlGenerator.generateDocument(rs);
         } catch (SQLException e) {
@@ -25,7 +23,7 @@ public class MakeXml {
         }
     }
 
-    void xsltTransform(final String path) {
+    public void xsltTransform(final String path) {
 
         XsltGenerator xsltGenerator = new XsltGenerator();
         try {
@@ -35,7 +33,7 @@ public class MakeXml {
         }
     }
 
-    void xmlParserToArrayListAndSum(final String path) {
+    public void xmlParserToArrayListAndSum(final String path) {
         XmlFileParser xmlFileParser = new XmlFileParser();
         ArrayList<Integer> arrayForSum = xmlFileParser.parseXmlFileToArrayList(path);
         System.out.println("Parse file to array success.");

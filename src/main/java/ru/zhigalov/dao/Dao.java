@@ -1,7 +1,11 @@
-package ru.zhigalov;
+package ru.zhigalov.dao;
 
-import com.sun.rowset.CachedRowSetImpl;
+
+import ru.zhigalov.servise.Config;
+
 import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 
 public class Dao {
@@ -16,21 +20,26 @@ public class Dao {
     final String INSERT = "INSERT INTO TEST (field) VALUES (?)";
     final String SELECT = "SELECT field FROM TEST";
 
-    void setUrl(){
-        this.url = Settings.getValue("jdbc.url");
+    public void initConfigConnectionToDb() {
+        setUrl();
+        setLogin();
+        setPassword();
+        setN();
     }
-    void setLogin(){
-        this.user = Settings.getValue("jdbc.user");
+    public void setUrl(){
+        this.url = Config.getValue("jdbc.url");
     }
-    void setPassword(){
-        this.pwd = Settings.getValue("jdbc.pwd");
+    public void setLogin(){
+        this.user = Config.getValue("jdbc.user");
     }
-    void setN() {
-        this.n = Integer.parseInt((Settings.getValue("n")));
+    public void setPassword(){
+        this.pwd = Config.getValue("jdbc.pwd");
+    }
+    public void setN() {
+        this.n = Integer.parseInt((Config.getValue("n")));
     }
 
-    public void DbCreateAndClear() {
-
+    public void dbCreateAndClear() {
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try {
                 DatabaseMetaData meta = connection.getMetaData();
@@ -58,7 +67,7 @@ public class Dao {
     }
 
 
-    public void DbInsert() {
+    public void dbInsert() {
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(INSERT)) {
                 connection.setAutoCommit(false);
@@ -86,21 +95,19 @@ public class Dao {
         }
     }
 
-    ResultSet GetData() throws SQLException {
+    public ResultSet getData() throws SQLException {
         ResultSet rs;
-        CachedRowSet crset = new CachedRowSetImpl ();
+        RowSetFactory factory = RowSetProvider.newFactory();
+        CachedRowSet crset = factory.createCachedRowSet();
 
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
 
                 rs = statement.executeQuery();
-
                 crset.populate (rs);
-
                 if (crset != null) {
                     System.out.println("Select success");
                 }
-
             } catch (SQLException e) {
                 System.out.println("Select failed");
                 e.printStackTrace();

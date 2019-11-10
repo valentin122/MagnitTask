@@ -1,4 +1,4 @@
-package ru.zhigalov;
+package ru.zhigalov.xml;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -16,12 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class XmlGenerator {
-
     String generateDocument(ResultSet resultSet) throws SQLException, IOException,
-            TransformerException, XMLStreamException {
-        //Класс ResultSet представляет результирующий набор данных и обеспечивает приложению построчный доступ к результатам запросов.
-
-
+        TransformerException, XMLStreamException {
         List<String> dbQueryResult = new ArrayList<>();
         String line;
         final String COLUMN_FIELD = "field";
@@ -29,7 +25,7 @@ class XmlGenerator {
             dbQueryResult.add(resultSet.getString(COLUMN_FIELD));
         }
 
-        final XMLOutputFactory factory = XMLOutputFactory.newFactory(); //
+        final XMLOutputFactory factory = XMLOutputFactory.newFactory();
         XMLStreamWriter writer = factory.createXMLStreamWriter(new FileOutputStream("0.xml"), "UTF-8");
         writer.writeStartDocument("UTF-8", "1.0");
         writer.writeStartElement("entries");
@@ -55,12 +51,11 @@ class XmlGenerator {
         );
 
         StringBuilder stringBuilder = new StringBuilder();
-        String ls = System.getProperty("line.separator");
 
         try (BufferedReader reader = new BufferedReader(new FileReader("1.xml"))) {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
-                stringBuilder.append(ls);
+              //  stringBuilder.append(System.lineSeparator());
             }
             return stringBuilder.toString();
         }

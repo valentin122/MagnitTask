@@ -1,4 +1,4 @@
-package ru.zhigalov;
+package ru.zhigalov.xml;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -26,7 +26,6 @@ public class XmlFileParser {
         } catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }
-
         try {
             while (parser.hasNext()) {
                 int event = parser.next();
@@ -37,7 +36,6 @@ public class XmlFileParser {
                             arrayAfterParse.add(Integer.parseInt(intValueInAttribute));
                         }
                     }
-
                 }
             }
         } catch (XMLStreamException e) {
