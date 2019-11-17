@@ -41,7 +41,6 @@ public class XmlFileParser {
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
-
         return arrayAfterParse;
     }
 }

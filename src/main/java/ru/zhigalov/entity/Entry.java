@@ -7,11 +7,14 @@ import java.util.Objects;
 @XmlRootElement
 public class Entry {
 
+    private int field;
+
+    public Entry() {
+    }
+
     public Entry(int field) {
         this.field = field;
     }
-
-    private int field;
 
     public int getField() {
         return field;

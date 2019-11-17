@@ -95,17 +95,17 @@ public class Dao {
         }
     }
 
-    public ResultSet getData() throws SQLException {
+    public CachedRowSet getData() throws SQLException {
         ResultSet rs;
         RowSetFactory factory = RowSetProvider.newFactory();
-        CachedRowSet crset = factory.createCachedRowSet();
+        CachedRowSet cachedRowSet = factory.createCachedRowSet();
 
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(SELECT)) {
 
                 rs = statement.executeQuery();
-                crset.populate (rs);
-                if (crset != null) {
+                cachedRowSet.populate (rs);
+                if (cachedRowSet != null) {
                     System.out.println("Select success");
                 }
             } catch (SQLException e) {
@@ -113,7 +113,7 @@ public class Dao {
                 e.printStackTrace();
             }
         }
-        return crset;
+        return cachedRowSet;
     }
 }
 
