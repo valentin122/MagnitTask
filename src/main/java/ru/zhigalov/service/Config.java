@@ -1,4 +1,4 @@
-package ru.zhigalov.servise;
+package ru.zhigalov.service;
 
 import java.io.*;
 import java.util.Properties;

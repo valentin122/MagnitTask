@@ -1,7 +1,7 @@
 package ru.zhigalov.dao;
 
 
-import ru.zhigalov.servise.Config;
+import ru.zhigalov.service.Config;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;

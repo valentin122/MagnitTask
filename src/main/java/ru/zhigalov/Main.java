@@ -1,7 +1,7 @@
 package ru.zhigalov;
 
 import ru.zhigalov.dao.Dao;
-import ru.zhigalov.servise.Config;
+import ru.zhigalov.service.Config;
 import ru.zhigalov.xml.MakeXml;
 
 import javax.sql.rowset.CachedRowSet;
