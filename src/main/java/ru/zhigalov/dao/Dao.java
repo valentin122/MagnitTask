@@ -1,6 +1,5 @@
 package ru.zhigalov.dao;
 
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,7 +15,6 @@ public class Dao {
     private String url;
     private String user;
     private String pwd;
-    private int n;
 
     public Dao() {
     }
@@ -64,7 +62,6 @@ public class Dao {
         }
     }
 
-
     public void dbInsert(String insert, List<Integer> input) {
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(insert)) {
@@ -101,7 +98,6 @@ public class Dao {
 
         try (Connection connection = DriverManager.getConnection(url, user, pwd)) {
             try (PreparedStatement statement = connection.prepareStatement(select)) {
-
                 rs = statement.executeQuery();
                 cachedRowSet.populate (rs);
                 if (cachedRowSet != null) {

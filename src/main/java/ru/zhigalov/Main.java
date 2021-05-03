@@ -63,9 +63,9 @@ public class Main {
                 "selectTime " + selectTime / 1000 + System.lineSeparator() +
                 "generateTime " + generateTime / 1000 + System.lineSeparator() +
                 "transformTime " + transformTime / 1000 + System.lineSeparator() +
-                "parseTime " + parseTime / 1000);
+                "parseTime " + parseTime / 1000 );
+        LOG.info("программа выполнялась " + (timeSpent / 1000) + " секунд" + System.lineSeparator() );
 
-        LOG.info("программа выполнялась " + (timeSpent / 1000) + " секунд");
         System.out.println(String.format("Sum is %s", sum));
     }
 }
