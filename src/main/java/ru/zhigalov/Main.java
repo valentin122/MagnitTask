@@ -1,5 +1,7 @@
 package ru.zhigalov;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import ru.zhigalov.dao.Dao;
 import ru.zhigalov.operations.Operations;
 import ru.zhigalov.service.Config;
@@ -11,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
+    private static final Logger LOG = LogManager.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws SQLException, JAXBException {
         Config config = new Config();
@@ -25,13 +28,13 @@ public class Main {
         final String LOGIN = config.getValue("jdbc.user");
         final String PASSWORD = config.getValue("jdbc.pwd");
         final int N = Integer.parseInt(config.getValue("n"));
+
         long startTime = System.currentTimeMillis();
 
         Dao dao = new Dao(URL, LOGIN, PASSWORD);
         MakeXml makeXml = new MakeXml();
         Operations operations = new Operations();
 
-        //dao.initConfigConnectionToDb(); //инициация параметров подключения к БД
         List<Integer> listForInsert = operations.createListFromOneToN(N);
 
         dao.dbCreateAndClear(CREATE, CLEAN);
@@ -54,7 +57,7 @@ public class Main {
         long sum = operations.getSumOfList(parsedData);
         double parseTime = System.currentTimeMillis() - startTime - clearTime - insertTime  - selectTime - generateTime - transformTime;
         double timeSpent = (System.currentTimeMillis() - startTime);
-        System.out.println(
+        LOG.info(System.lineSeparator() +
                 "clearTime " + clearTime / 1000 + System.lineSeparator() +
                 "insertTime " + insertTime / 1000 + System.lineSeparator() +
                 "selectTime " + selectTime / 1000 + System.lineSeparator() +
@@ -62,12 +65,7 @@ public class Main {
                 "transformTime " + transformTime / 1000 + System.lineSeparator() +
                 "parseTime " + parseTime / 1000);
 
-        System.out.println("программа выполнялась " + (timeSpent / 1000) + " секунд");
+        LOG.info("программа выполнялась " + (timeSpent / 1000) + " секунд");
         System.out.println(String.format("Sum is %s", sum));
     }
-
-    private void setInitParams() {
-
-    }
-
 }

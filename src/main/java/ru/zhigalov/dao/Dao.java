@@ -1,7 +1,8 @@
 package ru.zhigalov.dao;
 
 
-import ru.zhigalov.service.Config;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.util.List;
 
 public class Dao {
+    private static final Logger LOG = LogManager.getLogger(Dao.class.getName());
 
     private String url;
     private String user;
@@ -46,18 +48,18 @@ public class Dao {
                     }
                 }
             } catch (SQLException e) {
-                System.out.println("db can't create");
+                LOG.error("db can't create", e);
                 e.printStackTrace();
             }
             try (PreparedStatement statement = connection.prepareStatement(clean)) {
                 statement.executeUpdate();
-              //  System.out.println("db cleaning");
+                LOG.info("db cleaning");
             } catch (SQLException e) {
-                System.out.println("db cleaning failed");
+                LOG.error("db cleaning failed", e);
                 e.printStackTrace();
             }
         } catch (SQLException e) {
-            System.out.println("db cleaning failed");
+            LOG.error("db cleaning failed", e);
             e.printStackTrace();
         }
     }
@@ -73,13 +75,13 @@ public class Dao {
                 }
                 statement.executeBatch();
                 connection.commit();
-                // System.out.println("db inserted!");
+                LOG.info("db inserted!");
             } catch (SQLException e) {
-              //  System.out.println("db inserted failed");
+                LOG.error("db inserted failed", e);
                 try {
                     connection.rollback();
                 } catch (SQLException e1) {
-                 //   System.out.println("rollback failed");
+                    LOG.error("rollback failed");
                     e.printStackTrace();
                 }
                 e.printStackTrace();
@@ -87,7 +89,7 @@ public class Dao {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-         //   System.out.println("db connection failed");
+            LOG.error("db connection failed", e);
             e.printStackTrace();
         }
     }
@@ -103,10 +105,10 @@ public class Dao {
                 rs = statement.executeQuery();
                 cachedRowSet.populate (rs);
                 if (cachedRowSet != null) {
-                    //System.out.println("Select success");
+                    LOG.info("Select success");
                 }
             } catch (SQLException e) {
-              //  System.out.println("Select failed");
+                LOG.error("Select failed", e);
                 e.printStackTrace();
             }
         }

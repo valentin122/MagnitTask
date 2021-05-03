@@ -1,6 +1,9 @@
 package ru.zhigalov.xml;
 
 import java.io.*;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
@@ -17,9 +20,11 @@ import javax.xml.transform.stream.StreamResult;
  * Created by zhigalov
  * @since 18.11.2018
  */
-class XsltGenerator {
+public class XsltGenerator {
+    private static final Logger LOG = LogManager.getLogger(XsltGenerator.class.getName());
 
-    void generateXmlWithUseXslt(String pathInput, String pathOutput) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+    public void generateXmlWithUseXslt(String pathInput, String pathOutput) throws IOException, TransformerException,
+            SAXException, ParserConfigurationException {
         File stylesheet = new File("Change.xslt");
         File datafile = new File(pathInput);
 

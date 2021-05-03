@@ -1,5 +1,7 @@
 package ru.zhigalov.xml;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import ru.zhigalov.entity.Entries;
 import ru.zhigalov.entity.Entry;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MakeXml {
+    private static final Logger LOG = LogManager.getLogger(MakeXml.class.getName());
 
     public void generateXml(ResultSet rs, String fullPath) throws JAXBException, SQLException {
         final String COLUMN_FIELD = "field";
@@ -45,11 +48,10 @@ public class MakeXml {
     }
 
     public List<Integer> xmlParserToArrayList(final String path) {
-
         //TODO: make try catch
         XmlFileParser xmlFileParser = new XmlFileParser();
         ArrayList<Integer> arrayForSum = xmlFileParser.parseXmlFileToArrayList(path);
-        ///System.out.println("Parse file to array success.");
+        LOG.info("Parse file to array success.");
         return arrayForSum;
     }
 }

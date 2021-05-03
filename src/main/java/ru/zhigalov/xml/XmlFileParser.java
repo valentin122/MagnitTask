@@ -1,5 +1,8 @@
 package ru.zhigalov.xml;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
  * @since 18.11.2018
  */
 public class XmlFileParser {
+    private static final Logger LOG = LogManager.getLogger(XmlFileParser.class.getName());
 
     ArrayList parseXmlFileToArrayList(String inputPath)  {
         ArrayList<Integer> arrayAfterParse = new ArrayList();
@@ -24,6 +28,7 @@ public class XmlFileParser {
             parser = factory.createXMLStreamReader(
                     new BufferedInputStream(new FileInputStream(inputPath)));
         } catch (FileNotFoundException | XMLStreamException e) {
+            LOG.error("Can't find file to parsing", e);
             e.printStackTrace();
         }
         try {
@@ -39,6 +44,7 @@ public class XmlFileParser {
                 }
             }
         } catch (XMLStreamException e) {
+            LOG.error("Can't parse file", e);
             e.printStackTrace();
         }
         return arrayAfterParse;
