@@ -19,9 +19,9 @@ import javax.xml.transform.stream.StreamResult;
  */
 class XsltGenerator {
 
-    void generateXmlWithUseXslt(String path) throws IOException, TransformerException, SAXException, ParserConfigurationException {
+    void generateXmlWithUseXslt(String pathInput, String pathOutput) throws IOException, TransformerException, SAXException, ParserConfigurationException {
         File stylesheet = new File("Change.xslt");
-        File datafile = new File(path);
+        File datafile = new File(pathInput);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder2 = factory.newDocumentBuilder();
@@ -40,6 +40,6 @@ class XsltGenerator {
 
         transformer.transform(source, result);
 
-        transformer.transform(source, new StreamResult(new FileOutputStream("2.xml")));
+        transformer.transform(source, new StreamResult(new FileOutputStream(pathOutput)));
     }
 }

@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.Properties;
 
 public class Config {
-    private static final Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
-    public static void init()    {
+    public  void init()    {
         ClassLoader loader = Config.class.getClassLoader();
         InputStream io = loader.getResourceAsStream("properties.properties");
         try {
@@ -16,7 +16,7 @@ public class Config {
         }
     }
 
-    public static String getValue(String key) {
+    public String getValue(String key) {
         return properties.getProperty(key);
     }
 

@@ -14,22 +14,19 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MakeXml {
 
-    public static void generateXml(ResultSet rs, String path) throws JAXBException, SQLException {
+    public void generateXml(ResultSet rs, String fullPath) throws JAXBException, SQLException {
         final String COLUMN_FIELD = "field";
 
         Entries entries = new Entries();
-
-        String name = "1.xml";
-        String fullPath = path + name;
 
         while (rs.next()) {
             entries.addEntry(
                     new Entry(rs.getInt(COLUMN_FIELD)));
         }
-
         JAXBContext context = JAXBContext.newInstance(Entries.class);
         Marshaller jaxbMarshaller = context.createMarshaller();
 
@@ -38,28 +35,21 @@ public class MakeXml {
         jaxbMarshaller.marshal(entries, new File(fullPath));
     }
 
-    public void xsltTransform(final String path) {
-
+    public void xsltTransform(String pathInput, String pathOutput) {
         XsltGenerator xsltGenerator = new XsltGenerator();
         try {
-            xsltGenerator.generateXmlWithUseXslt(path);
+            xsltGenerator.generateXmlWithUseXslt(pathInput, pathOutput);
         } catch (IOException | SAXException | ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
     }
 
-    public void xmlParserToArrayListAndSum(final String path) {
+    public List<Integer> xmlParserToArrayList(final String path) {
+
+        //TODO: make try catch
         XmlFileParser xmlFileParser = new XmlFileParser();
         ArrayList<Integer> arrayForSum = xmlFileParser.parseXmlFileToArrayList(path);
-        System.out.println("Parse file to array success.");
-
-        long sum = 0;
-        for (int i : arrayForSum) {
-            sum = sum + i;
-
-        }
-        long sum1 = sum;
-        System.out.println(String.format("Sum is %s", sum1));
-
+        ///System.out.println("Parse file to array success.");
+        return arrayForSum;
     }
 }
