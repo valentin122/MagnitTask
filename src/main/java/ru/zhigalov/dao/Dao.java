@@ -47,18 +47,15 @@ public class Dao {
                 }
             } catch (SQLException e) {
                 LOG.error("db can't create", e);
-                e.printStackTrace();
             }
             try (PreparedStatement statement = connection.prepareStatement(clean)) {
                 statement.executeUpdate();
                 LOG.info("db cleaning");
             } catch (SQLException e) {
                 LOG.error("db cleaning failed", e);
-                e.printStackTrace();
             }
         } catch (SQLException e) {
-            LOG.error("db cleaning failed", e);
-            e.printStackTrace();
+            LOG.error("db connection failed", e);
         }
     }
 
@@ -79,15 +76,12 @@ public class Dao {
                     connection.rollback();
                 } catch (SQLException e1) {
                     LOG.error("rollback failed");
-                    e.printStackTrace();
                 }
-                e.printStackTrace();
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             LOG.error("db connection failed", e);
-            e.printStackTrace();
         }
     }
 
@@ -105,7 +99,6 @@ public class Dao {
                 }
             } catch (SQLException e) {
                 LOG.error("Select failed", e);
-                e.printStackTrace();
             }
         }
         return cachedRowSet;

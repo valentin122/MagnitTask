@@ -1,4 +1,4 @@
-package ru.zhigalov.xml;
+package ru.zhigalov.service.xml;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,7 +29,6 @@ public class XmlFileParser {
                     new BufferedInputStream(new FileInputStream(inputPath)));
         } catch (FileNotFoundException | XMLStreamException e) {
             LOG.error("Can't find file to parsing", e);
-            e.printStackTrace();
         }
         try {
             while (parser.hasNext()) {
@@ -45,7 +44,6 @@ public class XmlFileParser {
             }
         } catch (XMLStreamException e) {
             LOG.error("Can't parse file", e);
-            e.printStackTrace();
         }
         return arrayAfterParse;
     }

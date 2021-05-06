@@ -1,4 +1,4 @@
-package ru.zhigalov.xml;
+package ru.zhigalov.service.xml;
 
 import java.io.*;
 

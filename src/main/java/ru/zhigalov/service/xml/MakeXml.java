@@ -1,4 +1,4 @@
-package ru.zhigalov.xml;
+package ru.zhigalov.service.xml;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -43,12 +43,11 @@ public class MakeXml {
         try {
             xsltGenerator.generateXmlWithUseXslt(pathInput, pathOutput);
         } catch (IOException | SAXException | ParserConfigurationException | TransformerException e) {
-            e.printStackTrace();
+            LOG.error("Transform XML error", e);
         }
     }
 
     public List<Integer> xmlParserToArrayList(final String path) {
-        //TODO: make try catch
         XmlFileParser xmlFileParser = new XmlFileParser();
         ArrayList<Integer> arrayForSum = xmlFileParser.parseXmlFileToArrayList(path);
         LOG.info("Parse file to array success.");

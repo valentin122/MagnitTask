@@ -4,8 +4,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ru.zhigalov.dao.Dao;
 import ru.zhigalov.operations.Operations;
-import ru.zhigalov.service.Config;
-import ru.zhigalov.xml.MakeXml;
+import ru.zhigalov.config.Config;
+import ru.zhigalov.service.xml.MakeXml;
 
 import javax.sql.rowset.CachedRowSet;
 import javax.xml.bind.JAXBException;
@@ -20,10 +20,10 @@ public class Main {
         config.init();
         String pathToFirstResult = config.getValue("path.to.XML.first.result");
         String pathToTransformedXML = config.getValue("path.to.TransformedXML");
-        final String CREATE = config.getValue("create");
-        final String CLEAN = config.getValue("clean");
-        final String INSERT = config.getValue("insert");
-        final String SELECT = config.getValue("select");
+        final String SQL_OPERATION_CREATE = config.getValue("create");
+        final String SQL_OPERATION_CLEAN = config.getValue("clean");
+        final String SQL_OPERATION_INSERT = config.getValue("insert");
+        final String SQL_OPERATION_SELECT = config.getValue("select");
         final String URL = config.getValue("jdbc.url");
         final String LOGIN = config.getValue("jdbc.user");
         final String PASSWORD = config.getValue("jdbc.pwd");
@@ -37,13 +37,13 @@ public class Main {
 
         List<Integer> listForInsert = operations.createListFromOneToN(N);
 
-        dao.dbCreateAndClear(CREATE, CLEAN);
+        dao.dbCreateAndClear(SQL_OPERATION_CREATE, SQL_OPERATION_CLEAN);
         double clearTime = System.currentTimeMillis() - startTime;
 
-        dao.dbInsert(INSERT, listForInsert);
+        dao.dbInsert(SQL_OPERATION_INSERT, listForInsert);
         double insertTime = System.currentTimeMillis() - startTime - clearTime ;
 
-        CachedRowSet cRowSet = dao.getData(SELECT);
+        CachedRowSet cRowSet = dao.getData(SQL_OPERATION_SELECT);
         double selectTime = System.currentTimeMillis() - startTime - insertTime - clearTime;
 
         makeXml.generateXml(cRowSet, pathToFirstResult);
